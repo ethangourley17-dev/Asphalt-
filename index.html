@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reuse Canada ScaleHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f1f5f9;
+      }
+      
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Print Styles for POS Receipt */
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #printable-ticket, #printable-ticket * {
+          visibility: visible;
+        }
+        #printable-ticket {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 80mm; /* Standard POS width */
+          margin: 0;
+          padding: 0;
+          background: white;
+          color: black;
+        }
+        @page {
+          size: auto;
+          margin: 0mm;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.559.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.32.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
+    "react": "https://esm.sh/react@^19.2.1",
+    "react/": "https://esm.sh/react@^19.2.1/",
+    "react-webcam": "https://esm.sh/react-webcam@^7.2.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

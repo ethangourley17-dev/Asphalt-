@@ -1,0 +1,7 @@
+{
+  "name": "Reuse Canada ScaleHub",
+  "description": "Digital truck scale ticketing platform with AI-powered license plate recognition and serial scale integration.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
