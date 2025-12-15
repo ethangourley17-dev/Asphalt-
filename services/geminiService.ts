@@ -20,18 +20,20 @@ export const identifyTruck = async (base64Image: string): Promise<RecognitionRes
             }
           },
           {
-            text: "Analyze this image of a truck on a scale. 1. Identify the License Plate Number. 2. Give a confidence score (0-1). Return JSON."
+            text: "Extract the license plate number from this truck image."
           }
         ]
       },
       config: {
+        systemInstruction: "You are an automated License Plate Recognition (ALPR) system for a truck scale. Your job is to accurately extract the license plate characters from the provided image. If the plate is partially obscured, make your best guess based on visible characters. Return the result in JSON format.",
+        temperature: 0.4, // Lower temperature for more deterministic results
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
             licensePlate: {
               type: Type.STRING,
-              description: "The alphanumeric license plate number. If not visible, return 'UNKNOWN'.",
+              description: "The alphanumeric license plate number. Remove all spaces and special characters. If not visible, return 'UNKNOWN'.",
             },
             confidence: {
               type: Type.NUMBER,
@@ -44,9 +46,10 @@ export const identifyTruck = async (base64Image: string): Promise<RecognitionRes
 
     if (response.text) {
         const data = JSON.parse(response.text);
-        // Normalize plate: remove spaces, uppercase
+        // Normalize plate: remove spaces, uppercase, remove hyphens common in manual entry
+        const normalizedPlate = data.licensePlate.replace(/[^A-Z0-9]/gi, '').toUpperCase();
         return {
-            licensePlate: data.licensePlate.replace(/\s/g, '').toUpperCase(),
+            licensePlate: normalizedPlate || "UNKNOWN",
             confidence: data.confidence
         };
     }
